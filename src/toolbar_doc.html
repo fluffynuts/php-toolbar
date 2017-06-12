@@ -1,0 +1,353 @@
+<html>
+<title>Toolbar class documentation</title>
+<style>
+<!-- style for documentation <<< -->
+html {
+	background-color: #aaaaaa;
+}
+body {
+	color: #000000;
+	background-color: #aaaaaa;
+	font-family: verdana, helvetica, arial;
+	font-size: 10px;
+}
+h3 {
+	text-align: center;
+}
+div.shead {
+	color: #000000;
+	border: 1px solid #555555;
+	font-weight: bold;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 5px;
+}
+div.section {
+	color: #000000;
+	background-color: #9999aa;
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 1px;
+	padding-top: 1px;
+}
+div.codeblock {
+	color: #000000;
+	background-color: #bbbbbb;
+	padding: 5px;
+	border: 1px solid black;
+	margin: 25px;
+	padding: 10px;
+}
+th {
+	background-color: #888888;
+	color: #000000;
+}
+td {
+	font-family: verdana, helvetica, arial;
+	vertical-align: top;
+	font-size: 10px;
+	border: 1px solid #bbbbbb;
+}
+p {
+	text-align: justify;
+}
+</style>
+<!-- >>> -->
+</head>
+<body>
+<h3>Toolbar class documentation</h3>
+<div class="shead">What is this?</div>
+<!--  <<< -->
+<div class="section">
+<p>
+This is a generic mechanism for creating an array of one or more buttons
+on a web page, which can perform a scripted action or load a url, either
+in the current page, or in a popup. It was designed to save a little time,
+especially on pages where I have many buttons (two or three per item in a 
+list, for example), and to provide a single point of entry when debugging
+or looking for a style change.
+</p>
+<p>
+In it's simplest form, the toolbar outputs an array of vertically or 
+horizontally (default) placed inputs of type &quot;button&quot; which perform
+the configured actions. But, at a second glance, we can see that there is
+a secondary &quot;button&quot; generating mechanism, which uses table elements
+to create what, to the user, looks and feels like buttons, but which can 
+do some extra things, like have an icon on the button. Now your web app can
+have buttons just as nice as your normal gui apps.
+</p>
+</div>
+<!-- >>> -->
+<div class="shead">But why?</div>
+<!-- <<< -->
+<div class="section">
+<p>
+A few reasons, really:
+<ul>
+<li>saving time on button code generation</li>
+<li>providing one robust point of button generation -- less debugging, more
+	features, more stability</li>
+<li>providing a uniform look to buttons in a set</li>
+<li>providing a mechanism for putting icons on buttons</li>
+</ul>
+</p>
+</div>
+<!-- >>> -->
+<div class="shead">About style and other such things</div>
+<!-- <<< -->
+<div class="section">
+<p>
+	I tend to do just about all of my coding in VIM. Actually, I stick to using
+	the graphical version (GVIM), but sometimes make short trips to the land
+	of the console. My reasons are simple: I need a uniform development 
+	environment on win32 and linux (because I'm forced to use the first, and
+	I love to use the second), and I needed something powerful, yet simple
+	and, quite importantly, free. Not just free as in beer -- free as in
+	licensing. I believe that the days of closed-source applications are
+	over. Commercial apps can still be written: a coder has to eat and feed
+	his wife and all that. But your clients deserve disclosure on the source, 
+	should you be abducted by aliens or something similar. Or even just so they
+	can also hire a hacker to implement features you didn't think of. But
+	enough of that.</p>
+	<p>Also, whilst VIM may give an initially steep learning curve, and
+	seem to contain unnecessary keyboard work, you will find that other
+	editors become annoying after you find the true power in vim. Also, very
+	few other editors are as ready to adapt to the coder's wishes.</p>
+	<p>The point is that you might notice a few commented out &lt;&lt;&lt;'s
+	and corresponding &gt;&gt;&gt;'s. This is not an angle-bracket fetish: it's
+	my choice for fold markers in vim (thanks to a friend) because curly braces
+	cause problems in Tcl (even when commented), and tend to mess up the
+	brace-matching for languages that use braces for code blocks, since
+	vim cannot always tell what is a code brace, and what is a fold brace.
+	You also might notice that I tend to stick to an 80 column line. This can
+	make some sections of deep code a little short on space, but it's something
+	I do as a matter of style (thanks to the same friend). It makes for
+	easier reading on a terminal, and means that the code is more easily
+	available to anyone who has time to waste on it.</p>
+</div>
+<!-- >>> -->
+<div class="shead">Where to begin?</div>
+<!--- <<< -->
+<div class="section">
+<p>
+The toolbar class started simple, and usage can be quite simple. First, we
+need an instance of the class:
+<div class="codeblock"><pre>
+$tb = new Toolbar(array(
+	&quot;look&quot;	=&gt;	&quot;modern&quot;,
+));
+</pre></div>
+The look defines the engine that is used for button generation, as well as
+fundamental behaviour. The &quot;classic&quot; look is the default, and uses
+standard inputs for the buttons. The only real advantages with using the
+&quot;classic&quot; look are:
+<ul>
+<li>simpler output</li>
+<li>uses the buttons provided by the browser (may integrate better with the 
+OS, but may also look really plain or simply bad, especially if you are 
+outputting to a browser that is not fully CSS2 complient (such as IE, all the
+way up to v6), and you have styling set on your inputs to, for instance, make
+text entries look a certain way. Notice how your buttons also end up looking
+like that?))</li>
+<li>A true &quot;submit&quot; button. Submission with the &quot;modern&quot;
+engine requires that the button has some code like: 
+&quot;document.myform.submit();&quot;. Not a big deal, but something to bear
+in mind</li>
+</ul>
+</p>
+<p>The &quot;modern&quot; look provides for a slightly sleeker button, but
+does use the system default colors for the button coloring. I say sleeker,
+and by that I mean that your buttons won't look so fat. Literally. But 
+a really great advantage of the &quot;modern&quot; look is the ability to 
+include images on the buttons -- making your user interface a little more
+intuitive.
+</p>
+<p>There are some other options for the class interface. Check out the usage
+section below</p>
+<p>A quick demo of adding a button:
+<div class="codeblock"><pre>
+$tb-&gt;add_button(array(
+	&quot;caption&quot;	=&gt;	&quot;Click me&quot;,
+	&quot;code&quot;	=&gt;	&quot;alert('Button clicked');&quot;,
+	&quot;img&quot;		=&gt;	&quot;images/button.png&quot;
+	&quot;imgpos&quot;	=&gt;	&quot;left&quot;
+));
+</pre></div>
+The above code adds a button with the caption &quot;Click me&quot;, which,
+when clicked, pops up an alert with the message &quot;Button clicked&quot;.
+The button is rendered with the image <pre>images/button.png</pre> on the
+left-hand-side of the button, if that image exists. Simple, hey? 
+</p>
+<p>How about getting the toolbar onto the page?
+<div class="codeblock"><pre>
+$tb-&gt;render();
+</pre></div>
+That's it. Really. And if you wanted to take the html output from a 
+<pre>render</pre>
+and use it elsewhere, instead of rendering at the point that the 
+<pre>render</pre> 
+function was called, simply pass the value <pre>false</pre> to the
+<pre>render</pre> function, and collect the return value from the output.
+</p>
+</div>
+<!-- >>> -->
+<div class="shead">Usage</div>
+<!-- <<< -->
+<div class="section">
+<p>The class constructor as well as the add_button method are each driven with
+an array of options. Some are required, some aren't. Here's a table of the
+options you can use, as well as their default values:
+<table>
+<thead><tr><th colspan="4">Class constructor</th></tr>
+<tr><th>Option</th><th>Use</th><th>Possible values</th><th>Default</th>
+</thead>
+<tbody>
+<tr>
+	<td>style
+	</td>
+	<td>Overall style of the containing div of the toolbar
+	</td>
+	<td>Any CSS compliant style string, or a class name
+	</td>
+	<td>padding-left: 20px; padding-right: 20px; padding-top: 5px; margin: auto;
+	</td>
+</tr>
+<tr>
+	<td>align
+	</td>
+	<td>Alignment of the containing table element
+	</td>
+	<td>left, center, right
+	</td>
+	<td>center
+	</td>
+</tr>
+<tr>
+	<td>orient
+	</td>
+	<td>How the buttons are orientated
+	</td>
+	<td>h (for horizontal) or v (for vertical)
+	</td>
+	<td>h
+	</td>
+</tr>
+<tr>
+	<td>bwidth
+	</td>
+	<td>Button width, in pixels
+	</td>
+	<td>A value like &quot;50&quot; or &quot;50px&quot; (if you forget the
+		px, it is added for you), or the value &quot;auto&quot; which leaves
+		sizing up to the browser
+	</td>
+	<td>auto</td>
+</tr>
+<tr>
+	<td>look
+	</td>
+	<td>The engine and style of the toolbar
+	</td>
+	<td>classic, modern, toggle (which provides toggle buttons)
+	</td>
+	<td>classic, but this can be overridden with the global variable 
+	$GLOBALS[&quot;toolbar_look&quot;], so that you don't have to set it
+	every time, or so that you have one place to set it.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead><tr><th colspan="4">add_button options</th></tr>
+<tr><th>Option</th><th>Use</th><th>Possible values</th><th>Default</th>
+</thead>
+<tbody>
+<tr>
+	<td>disabled
+	</td>
+	<td>sets the state of the button at the load of the page
+	</td>
+	<td>true, false
+	</td>
+	<td>false
+	</td>
+</tr>
+<tr>
+	<td>caption
+	</td>
+	<td>The text written on the button
+	</td>
+	<td>any textural string
+	</td>
+	<td>label me
+	</td>
+</tr>
+<tr>
+	<td>title
+	</td>
+	<td>Text used in a tooltip title
+	</td>
+	<td>any textural string
+	</td>
+	<td>(none)
+	</td>
+</tr>
+<tr>
+	<td>img
+	</td>
+	<td>path to image to use as icon on the button (modern and toggle only)
+	</td>
+	<td>any valid path to an image file. If the file can't be found, the
+		option is ignored
+	</td>
+	<td>(none)
+	</td>
+</tr>
+<tr>
+	<td>imgpos
+	</td>
+	<td>Position of the image, relative to the caption on the button
+	</td>
+	<td>left, top, right, bottom
+	</td>
+	<td>top
+	</td>
+</tr>
+<tr>
+	<td>id
+	</td>
+	<td>the id assigned to the button item
+	</td>
+	<td>a valid id value, must be unique in the document. You don't need to
+		assign this if you don't have a special need for a specific id. But
+		if you do, it's up to you to make sure it's valid and unique.
+	</td>
+	<td>generated id; the id is returned from <pre>add_button</pre>
+	</td>
+</tr>
+</tbody>
+</table>
+</p>
+<p><u>Interaction on the page, with other javascript events / scripts:</u><br>
+The only thing you might want to do is programmatically disable a button
+on the page, due to some logic in your code. The best way to do this is via
+the function <pre>disable_toolbar_btn_byid</pre>, which takes in an id, and
+a boolean (true to disable, false to enable). The function takes care of
+whatever engine is used, and provides for a consistent interface.
+</p>
+</div>
+<!-- >>> -->
+<div class="shead">Credits:</div>
+<!--- <<< -->
+<div class="section">
+<p>The icons I provide are from the GNOME slick icons set. Thanks for the 
+good artwork guys. (Note that save.png was filesave.png in the slick set)</p>
+</div>
+<!-- >>> -->
+<p style="text-align:right">Author: Dave McColl, Wed Sep 14 11:53:03 SAST 2005
+</p>
+</body>
+</html>
