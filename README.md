@@ -1,6 +1,8 @@
 # php-toolbar
 Import from my old phpclasses days
 
+Last updated 2005-09-14
+
 This code was to provide an easier mechanism for spewing
 out toolbars, in particular, I wanted an easy way to produce
 toolbars with buttons which had images on them. Doesn't sound
